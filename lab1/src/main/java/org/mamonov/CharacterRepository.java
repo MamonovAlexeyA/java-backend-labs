@@ -1,30 +1,10 @@
-package org.example;
+package org.mamonov;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CRUD {
-
-    public static void main(String[] args) {
-        String filePath = "src/main/resources/characters.csv";
-        CharacterRepository repo = new CharacterRepository(filePath);
-
-        try {
-            String newCharacter = "21,Super Rick,Alive,Human,,Earth,Earth,url,2026-09-24T12:00:00.000Z";
-            repo.addCharacter(newCharacter);
-
-            String updatedCharacter = "21,Super Rick,Dead,Human,,Earth,Earth,url,2026-09-24T12:00:00.000Z";
-            repo.updateCharacter("1", updatedCharacter);
-
-            repo.deleteCharacter("2");
-        } catch (IOException e) {
-            System.err.println("Ошибка при работе с файлом: " + e.getMessage());
-        }
-    }
-}
-
-class CharacterRepository {
+public class CharacterRepository {
     private final String filePath;
 
     public CharacterRepository(String filePath) {
@@ -59,7 +39,6 @@ class CharacterRepository {
 
     public void deleteCharacter(String id) throws IOException {
         List<String> lines = readAllLines();
-
         boolean isRemoved = lines.removeIf(line -> line.startsWith(id + ","));
 
         if (isRemoved) {

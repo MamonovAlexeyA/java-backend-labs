@@ -1,6 +1,5 @@
 id,name,status,species,type,gender,origin/name,location/name,created
 1,Rick Sanchez,Alive,Human,,Male,Earth (C-137),Citadel of Ricks,2017-11-04T18:48:46.250Z
-2,Morty Smith,Alive,Human,,Male,unknown,Citadel of Ricks,2017-11-04T18:50:21.651Z
 3,Summer Smith,Alive,Human,,Female,Earth (Replacement Dimension),Earth (Replacement Dimension),2017-11-04T19:09:56.428Z
 4,Beth Smith,Alive,Human,,Female,Earth (Replacement Dimension),Earth (Replacement Dimension),2017-11-04T19:22:43.665Z
 5,Jerry Smith,Alive,Human,,Male,Earth (Replacement Dimension),Earth (Replacement Dimension),2017-11-04T19:26:56.301Z
@@ -19,3 +18,4 @@ id,name,status,species,type,gender,origin/name,location/name,created
 18,Antenna Morty,Alive,Human,Human with antennae,Male,unknown,Citadel of Ricks,2017-11-04T22:25:29.008Z
 19,Antenna Rick,unknown,Human,Human with antennae,Male,unknown,unknown,2017-11-04T22:28:13.756Z
 20,Ants in my Eyes Johnson,unknown,Human,Human with ants in his eyes,Male,unknown,Interdimensional Cable,2017-11-04T22:34:53.659Z
+21,Super Rick,Dead,Human,,Earth,Earth,url,2026-09-24T12:00:00.000Z
