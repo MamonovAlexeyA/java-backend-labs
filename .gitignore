@@ -1,3 +1,6 @@
+target/
+*.class
 .idea/
-lab1/target/
-lab1/top5_oldest_characters.csv
+*.iml
+.vscode/
+grouped_locations.txt
