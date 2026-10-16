@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: device_postgres_db
+    environment:
+      POSTGRES_DB: devicedb
+      POSTGRES_USER: leha
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+    # Добавляем команду логирования, чтобы видеть все SQL-запросы в консоли
+    command: ["postgres", "-c", "log_statement=all"]
+    volumes:
+      - pgdata:/var/lib/postgresql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    restart: unless-stopped
+
+volumes:
+  pgdata:
