@@ -50,8 +50,8 @@ public class DeviceRepositoryImpl implements DeviceRepository {
                 );
                 """;
         try (Connection conn = getConnection();
-             Statement stmt = conn.createStatement()) {
-            stmt.execute(sql);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.execute();
             log.info("Таблица device готова к работе");
         } catch (SQLException e) {
             log.error("Ошибка при создании таблицы", e);
@@ -131,8 +131,8 @@ public class DeviceRepositoryImpl implements DeviceRepository {
         List<Device> list = new ArrayList<>();
 
         try (Connection conn = getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 list.add(new Device(rs.getInt("id"), rs.getString("model"), rs.getInt("battery_level")));
