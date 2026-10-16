@@ -20,6 +20,14 @@ public class DeviceRepositoryImpl implements DeviceRepository {
     private final String username;
     private final String password;
 
+    private Device mapRowToDevice(ResultSet rs) throws SQLException {
+        return new Device(
+                rs.getInt("id"),
+                rs.getString("model"),
+                rs.getInt("battery_level")
+        );
+    }
+
     // Конструктор без static-блоков: читает application.properties
     public DeviceRepositoryImpl() {
         Properties props = new Properties();
@@ -32,7 +40,7 @@ public class DeviceRepositoryImpl implements DeviceRepository {
             this.username = props.getProperty("db.username");
             this.password = props.getProperty("db.password");
         } catch (Exception e) {
-            throw   new DatabaseException("Ошибка при чтении application.properties", e);
+            throw new DatabaseException("Ошибка при чтении application.properties", e);
         }
     }
 
@@ -68,15 +76,14 @@ public class DeviceRepositoryImpl implements DeviceRepository {
             ps.setString(1, device.getModel());
             ps.setInt(2, device.getBatteryLevel());
 
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    int generatedId = rs.getInt("id");
-                    device.setId(generatedId);
-                    log.info("Сохранено устройство: {}", device);
-                    return generatedId;
-                }
-                throw new DatabaseException("Не удалось получить сгенерированный id", null);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int generatedId = rs.getInt("id");
+                device.setId(generatedId);
+                log.info("Сохранено устройство: {}", device);
+                return generatedId;
             }
+            throw new DatabaseException("Не удалось получить сгенерированный id");
         } catch (SQLException e) {
             log.error("Ошибка при сохранении устройства: {}", device, e);
             throw new DatabaseException("Ошибка сохранения устройства", e);
@@ -90,14 +97,13 @@ public class DeviceRepositoryImpl implements DeviceRepository {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
 
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return new Device(rs.getInt("id"), rs.getString("model"), rs.getInt("battery_level"));
-                }
-                log.info("Устройство с id={} не найдено", id);
-                return null;
+            if (rs.next()) {
+                return mapRowToDevice(rs);
             }
+            log.info("Устройство с id={} не найдено", id);
+            return null;
         } catch (SQLException e) {
             log.error("Ошибка поиска по id: {}", id, e);
             throw new DatabaseException("Ошибка поиска по id", e);
@@ -111,14 +117,13 @@ public class DeviceRepositoryImpl implements DeviceRepository {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, model);
+            ResultSet rs = ps.executeQuery();
 
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return new Device(rs.getInt("id"), rs.getString("model"), rs.getInt("battery_level"));
-                }
-                log.info("Устройство с model='{}' не найдено", model);
-                return null;
+            if (rs.next()) {
+                return mapRowToDevice(rs);
             }
+            log.info("Устройство с model='{}' не найдено", model);
+            return null;
         } catch (SQLException e) {
             log.error("Ошибка поиска по модели: {}", model, e);
             throw new DatabaseException("Ошибка поиска по модели", e);
