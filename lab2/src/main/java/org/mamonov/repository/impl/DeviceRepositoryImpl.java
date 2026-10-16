@@ -48,7 +48,6 @@ public class DeviceRepositoryImpl implements DeviceRepository {
         return DriverManager.getConnection(url, username, password);
     }
 
-    @Override
     public void createTableIfNotExists() {
         String sql = """
                 CREATE TABLE IF NOT EXISTS device (
@@ -67,7 +66,6 @@ public class DeviceRepositoryImpl implements DeviceRepository {
         }
     }
 
-    @Override
     public int save(Device device) {
         String sql = "INSERT INTO device (model, battery_level) VALUES (?, ?) RETURNING id;";
         try (Connection conn = getConnection();
@@ -90,7 +88,6 @@ public class DeviceRepositoryImpl implements DeviceRepository {
         }
     }
 
-    @Override
     public Device findById(int id) {
         String sql = "SELECT id, model, battery_level FROM device WHERE id = ?;";
         try (Connection conn = getConnection();
@@ -110,7 +107,6 @@ public class DeviceRepositoryImpl implements DeviceRepository {
         }
     }
 
-    @Override
     public Device findByModel(String model) {
         String sql = "SELECT id, model, battery_level FROM device WHERE model = ? LIMIT 1;";
         try (Connection conn = getConnection();
@@ -130,7 +126,6 @@ public class DeviceRepositoryImpl implements DeviceRepository {
         }
     }
 
-    @Override
     public List<Device> findAll() {
         String sql = "SELECT id, model, battery_level FROM device ORDER BY id;";
         List<Device> list = new ArrayList<>();
@@ -150,7 +145,6 @@ public class DeviceRepositoryImpl implements DeviceRepository {
         }
     }
 
-    @Override
     public boolean update(Device device) {
         if (device.getId() == null) {
             return false;
@@ -174,7 +168,6 @@ public class DeviceRepositoryImpl implements DeviceRepository {
         }
     }
 
-    @Override
     public void deleteById(int id) {
         String sql = "DELETE FROM device WHERE id = ?;";
         try (Connection conn = getConnection();

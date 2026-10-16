@@ -45,7 +45,6 @@ public class Device {
         this.batteryLevel = batteryLevel;
     }
 
-    @Override
     public String toString() {
         return "Device{id=" + id + ", model='" + model + "', batteryLevel=" + batteryLevel + "}";
     }
